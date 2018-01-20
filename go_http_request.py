@@ -18,7 +18,7 @@ class GoHTTPRequest(BaseHTTPRequestHandler):
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
-        post_data = self.rfile.read(content_length)
+        post_data = self.rfile.read(content_length).decode('utf8')
         json_data = json.loads(post_data) if post_data else []
         if self.path != '/gameupdate':
             print(self.path, json_data)
