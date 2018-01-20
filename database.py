@@ -1,4 +1,5 @@
 import pymysql.cursors
+import config
 
 
 class Criteria():
@@ -42,11 +43,11 @@ class Criteria():
 
 class Database():
     def __init__(self):
-        self.db_con = pymysql.connect(host='localhost',
-                                      user='go_server',
-                                      password='ZcwDQ9tyGSXqE90p',
-                                      db='go_server',
-                                      charset='utf8mb4',
+        self.db_con = pymysql.connect(host=config.db['host'],
+                                      user=config.db['user'],
+                                      password=config.db['password'],
+                                      db=config.db['db'],
+                                      charset=config.db['charset'],
                                       cursorclass=pymysql.cursors.DictCursor)
 
     def __execute(self, sql, values=(), rowcount=False, find_one=False, find_all=False, get_id=False):

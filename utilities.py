@@ -5,7 +5,7 @@ import datetime
 
 class Utilities():
     def random_string(length):
-        return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+        return ''.join(random.sample(string.ascii_uppercase + string.digits, length))
 
     def join(lst, delimeter=','):
         return delimeter.join(str(i) for i in lst)

@@ -49,7 +49,7 @@ class Game():
         print("ftm", self.field)
         return [[self.field[self.__get_field_index(x, y)].lower() for y in range(self.field_size)] for x in range(self.field_size)]
 
-    def __change_cell(self, x, y, content):
+    def __change_cell(self, content, x, y):
         index = self.__get_field_index(x, y)
         self.__change_cell_by_index(index, content)
 
@@ -242,7 +242,7 @@ class Game():
         for g in groups:
             if not g.has_liberties(self):
                 for x, y in g.stones:
-                    self.__change_cell(x, y, '0')
+                    self.__change_cell('0', x, y)
                     die_events.append({'type': 'die', 'data': (x, y)})
                     dead_stones.append((x, y))
         if die_events:
@@ -278,18 +278,18 @@ class Game():
             self.__reset_marked_stone()
             print(move['stone_coords'])
             if move['stone_coords'] != 'pass':
-                self.__change_cell(*move['stone_coords'].split(','), '0' if backwards else move['color'].upper())
+                self.__change_cell('0' if backwards else move['color'].upper(), *move['stone_coords'].split(','))
             deads = json.loads(move['deads'])
             if deads:
                 for coords in deads:
                     color = '0'
                     if backwards:
                         color = 'w' if move['color'] == 'b' else 'b'
-                    self.__change_cell(*coords, color)
+                    self.__change_cell(color, *coords)
         if backwards:
             self.__reset_marked_stone()
             if prev_move['stone_coords'] != 'pass':
-                self.__change_cell(*prev_move['stone_coords'].split(','), prev_move['color'].upper())
+                self.__change_cell(prev_move['color'].upper(), *prev_move['stone_coords'].split(','))
 
     def calc_territory(self):
         self.field = ''.join([random.choice('ek') if cell == '0' else cell for cell in self.field])
